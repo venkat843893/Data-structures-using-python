@@ -1,0 +1,84 @@
+# Node to represent each term in the polynomial
+class Node:
+    def __init__(self, coeff, power):  # fixed __init__
+        self.coeff = coeff
+        self.power = power
+        self.next = None
+
+# Function to insert a term into a polynomial linked list (in decreasing power order)
+def insert_term(head, coeff, power):
+    new_node = Node(coeff, power)
+    if head is None:
+        return new_node
+    else:
+        temp = head
+        while temp.next is not None:
+            temp = temp.next
+        temp.next = new_node
+        return head
+
+# Function to display a polynomial
+def display_polynomial(head):
+    temp = head
+    while temp is not None:
+        print(f"{temp.coeff}x^{temp.power}", end="")
+        if temp.next is not None and temp.next.coeff >= 0:
+            print(" + ", end="")
+        elif temp.next is not None:
+            print(" - ", end="")
+        temp = temp.next
+    print()
+
+# Function to add two polynomials
+def add_polynomials(p1, p2):
+    result = None
+    while p1 is not None and p2 is not None:
+        if p1.power == p2.power:
+            sum_coeff = p1.coeff + p2.coeff
+            if sum_coeff != 0:
+                result = insert_term(result, sum_coeff, p1.power)
+            p1 = p1.next
+            p2 = p2.next
+        elif p1.power > p2.power:
+            result = insert_term(result, p1.coeff, p1.power)
+            p1 = p1.next
+        else:
+            result = insert_term(result, p2.coeff, p2.power)
+            p2 = p2.next
+    while p1 is not None:
+        result = insert_term(result, p1.coeff, p1.power)
+        p1 = p1.next
+    while p2 is not None:
+        result = insert_term(result, p2.coeff, p2.power)
+        p2 = p2.next
+    return result
+
+# Function to create a polynomial by taking input from user
+def create_polynomial():
+    head = None
+    n = int(input("Enter number of terms in the polynomial: "))
+    for i in range(n):
+        coeff = int(input(f"Enter coefficient for term {i+1}: "))
+        power = int(input(f"Enter power for term {i+1}: "))
+        head = insert_term(head, coeff, power)
+    return head
+
+# Main Program
+print("Enter first polynomial:")
+poly1 = create_polynomial()
+
+print("\nEnter second polynomial:")
+poly2 = create_polynomial()
+
+print("\nPolynomial 1:")
+display_polynomial(poly1)
+
+print("Polynomial 2:")
+display_polynomial(poly2)
+
+sum_poly = add_polynomials(poly1, poly2)
+
+print("Sum of Polynomials:")
+display_polynomial(sum_poly)
+  
+
