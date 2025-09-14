@@ -1,0 +1,41 @@
+# Program: Palindrome Checker using Queue (Deque)
+# This program follows the algorithm step by step.
+
+from collections import deque   # Import deque (double-ended queue)
+
+def is_palindrome(word):
+    # Step 1: Calculate the length (for understanding)
+    n = len(word)
+
+    # Step 2: Create an empty deque
+    dq = deque()
+
+    # Step 3: Insert each letter into the deque (pushback)
+    for ch in word:
+        dq.append(ch)
+
+    # Step 4,5,6: Keep comparing front and rear characters
+    while len(dq) > 1:   # more than 1 character left
+        front = dq.popleft()   # remove from front
+        rear = dq.pop()        # remove from rear
+
+        # Step 7: Compare both ends
+        if front != rear:
+            return False   # mismatch → not a palindrome
+
+    # If loop ends → all characters matched
+    return True
+
+
+# ---------------- MAIN PROGRAM ----------------
+print("PALINDROME CHECKER USING QUEUE")
+print("----------------------------------")
+
+# Input word/phrase
+text = input("Enter a word: ")
+
+# Call function and print result
+if is_palindrome(text):
+    print("Result:", text, "IS a Palindrome")
+else:
+    print("Result:", text, "is NOT a Palindrome")
